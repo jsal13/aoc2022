@@ -1,0 +1,248 @@
+[tool.poetry]
+name = 'aoc2022'
+version = '0.1.0'
+description = ''
+authors = ['James Salvatore <jimmy.c.salvatore@gmail.com>']
+license = "LICENSE"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<3.11"
+hypothesis = "^6.58.0"
+fastapi = "^0.87.0"
+pandas = "^1.5.2"
+altair = "^4.2.0"
+matplotlib = "^3.6.2"
+requests = "^2.28.1"
+types-requests = "^2.28.11"
+uvicorn = "^0.20.0"
+httpx = "^0.23.1"
+flake8-bugbear = "^22.10.27"
+flake8-comprehensions = "^3.10.1"
+jupyter = "^1.0.0"
+
+[tool.poetry.dev-dependencies]
+black = {extras = ["jupyter"], version = "^22.8.0"}
+flake8 = "^4.0.1"
+invoke = "^1.6.0"
+ipykernel = "^6.7.0"
+isort = "^5.10.1"
+mypy = "^0.930"
+numpydoc = "^1.1.0"
+pre-commit = "^2.16.0"
+pydantic = "^1.8.2"
+pydocstyle = "^6.1.1"
+pylint = "^2.12.2"
+pytest = "^6.2.5"
+pytest-cov = "^3.0.0"
+responses = "^0.21.0"
+pytest-spec = "^3.2.0"
+Sphinx = "^4.3.2"
+sphinx-autoapi = "^1.8.4"
+sphinx-rtd-theme = "^1.0.0"
+toml = "^0.10.2"
+tox = "^3.24.4"
+jupyter = "^1.0.0"
+
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+# ========================================
+# PYLINT
+# For general linting.
+# > # https://pylint.pycqa.org/en/latest/index.html
+# > https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#pylint
+# ========================================
+[tool.pylint.format]
+max-line-length = '90'
+
+[tool.pylint.ini_options]
+ignore = ['.tox', '.direnv', 'python_venv']
+
+[tool.pylint.LOGGING]
+disable=['logging-fstring-interpolation']
+
+[tool.pylint.BASIC]
+good-names = [
+  'i',
+  'j',
+  'k',
+  'idx',
+  'jdx',
+  'kdz',
+  '_',
+  'x',
+  'y',
+  'z',
+  'tz',
+  'n',
+  'm',
+  'df',
+  'f',
+  'c',
+  's',
+]
+
+[tool.pylint.messages_control]
+disable = [
+  'C0114', # missing-module-docstring
+  'C0115', # missing-class-docstring
+  'C0116', # missing-function-docstring
+  'R0902', # Too many instance attributes
+  'R0903', # Too few public methods
+  'W0511', # TODO: fixme symbols.
+]
+
+# ========================================
+# MYPY
+# > For type-hint checking.
+# > https://pydantic-docs.helpmanual.io/mypy_plugin/#configuring-the-plugin
+# ========================================
+[tool.mypy]
+plugins = ['pydantic.mypy', 'numpy.typing.mypy_plugin']
+
+follow_imports = 'silent'
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+# For strinct mypy...
+disallow_untyped_defs = true
+
+[tool.mypy.overrides]
+module = []
+ignore_missing_imports = true
+
+# ========================================
+# BLACK
+# > For opinionated formatting.
+# ========================================
+[tool.black]
+target-version = ['py39']
+line-length = 90
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.hg
+    | \.mypy_cache
+    | \.tox
+    | \.venv
+    | _build
+    | buck-out
+    | build
+    | dist
+  )/
+  | foo.py           # also separately exclude a file named foo.py in
+                     # the root of the project
+)
+'''
+
+# ========================================
+# PYRIGHT
+# > To stop a "pyright" warning that it's not in here.
+# ========================================
+[tool.pyright]
+
+
+# ========================================
+# PYTEST
+# > For general unit and integration testing.
+# > https://docs.pytest.org/en/7.1.x/reference/customize.html#pyproject-toml
+# > https://docs.pytest.org/en/7.1.x/reference/reference.html#command-line-flags
+#
+# The ADDOPTS are as follows:
+#
+# -r chars        show extra test summary info as specified by chars:
+#                 (f)ailed, (E)rror, (s)kipped, (x)failed, (X)passed,
+#                 (p)assed, (P)assed with output, (a)ll except passed
+#                 (p/P), or (A)ll. (w)arnings are enabled by default
+#                 (see --disable-warnings), 'N' can be used to reset
+#                 the list. (default: 'fE').
+#
+# -q, --quiet     decrease verbosity.
+#
+# ========================================
+[tool.pytest.ini_options]
+minversion = '6.0'
+addopts = '-ra -q'
+testpaths = [
+    'tests'
+]
+
+
+# ========================================
+# TOX
+# > For standardized texting.
+# > https://tox.wiki/en/latest/example/basic.html#pyproject-toml-tox-legacy-ini
+# ========================================
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+envlist = py39
+isolated_build = True
+
+[testenv]
+deps =
+  pytest
+  pytest-cov
+  responses
+
+commands = pytest --cov=aoc2022 tests/
+    coverage report -m
+"""
+
+
+# ========================================
+# ISORT
+# > For sorting imports.
+# > https://timothycrosley.github.io/isort/
+# ========================================
+[tool.isort]
+
+skip = [
+  '.bzr',
+  '.direnv',
+  '.eggs',
+  '.git',
+  '.hg',
+  '.mypy_cache',
+  '.nox',
+  '.pants.d',
+  '.svn',
+  '.tox',
+  '.venv',
+  '_build',
+  'buck-out',
+  'build',
+  'dist',
+  'node_modules',
+  'venv',
+  'python_venv',
+]
+
+skip_gitignore = true
+line_length = 90
+profile = 'black'
+
+# ========================================
+# PYDOCSTYLE
+# > For linting docstrings.
+# > http://www.pydocstyle.org/en/stable/usage.html
+# > For matching: https://github.com/PyCQA/pydocstyle/issues/553
+# ========================================
+[tool.pydocstyle]
+inherit = false
+match = '((?!test_).)*\.py'
+ignore = [
+  'D100', # Missing docstring in public module.
+  'D104', # Missing docstring in public package.
+  'D203', # 1 blank line required before class docstring
+  'D212'  # Multi-line docstring summary should start on the first line.
+]
