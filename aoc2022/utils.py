@@ -2,6 +2,12 @@ import logging
 import logging.config
 
 
+def read_aoc_day_data_file(day: int) -> str:
+    """Read the data file for ``day`` in AoC 2022."""
+    with open(f"./data/day_{day:02}.txt", encoding="utf-8") as file:
+        return file.read()
+
+
 def configure_logger() -> None:
     """
     Configure logger.
