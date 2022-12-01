@@ -11,6 +11,6 @@
 
 ## What is this?
 
-It's Advent of Code 2022!
+It's [Advent of Code 2022](https://adventofcode.com/2022)!
 
 These problems attempt to use Python best practices, including linting and formatting with **flake8, mypy, typing, black** and unit testing with **pytest, hypothesis**.
