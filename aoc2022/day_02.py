@@ -38,26 +38,14 @@ def part_2_rps_conversion(data: List[List[str]]) -> List[List[str]]:
     in a draw, and Z means the player needs to win.
     """
     return [
-        [row[0], WLD_OPPONENT_PLAY_MAPPING.get(row[0]).get(XYZ_WLD_MAPPING[row[1]])]
+        [row[0], WLD_OPPONENT_PLAY_MAPPING[row[0]][XYZ_WLD_MAPPING[row[1]]]]
         for row in data
     ]
 
 
 def rps_rules(player: str, opponent: str) -> str:
     """Return 'Lose/Draw/Win' for the player depending on the player/opponent inputs."""
-    opponent_play_map = WLD_PLAYER_OPPONENT_PLAY_MAPPING.get(player)
-    if opponent_play_map is None:
-        raise ValueError(
-            f"Invalid inputs: {player}, {opponent}.  Should be one of: R, P, S."
-        )
-
-    result = opponent_play_map.get(opponent)
-    if result is None:
-        raise ValueError(
-            f"Invalid inputs: {player}, {opponent}.  Should be one of: R, P, S."
-        )
-
-    return result
+    return WLD_PLAYER_OPPONENT_PLAY_MAPPING[player][opponent]
 
 
 class Round:
