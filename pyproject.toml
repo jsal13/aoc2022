@@ -240,6 +240,7 @@ match = '((?!test_).)*\.py'
 ignore = [
   'D100', # Missing docstring in public module.
   'D104', # Missing docstring in public package.
+  'D107', # Missing docstring in __init__.
   'D203', # 1 blank line required before class docstring
   'D212'  # Multi-line docstring summary should start on the first line.
 ]

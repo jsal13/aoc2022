@@ -14,7 +14,7 @@ import os
 import sys
 
 sys.path.insert(0, os.path.abspath("."))
-sys.path.insert(0, os.path.abspath("../pytemplate"))
+sys.path.insert(0, os.path.abspath("../aoc2022"))
 
 
 # -- Project information -----------------------------------------------------
@@ -35,7 +35,7 @@ release = "0.1.0"
 extensions = ["numpydoc", "autoapi.extension"]
 
 autoapi_type = "python"
-autoapi_dirs = ["../pytemplate"]
+autoapi_dirs = ["../aoc2022"]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
