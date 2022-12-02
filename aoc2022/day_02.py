@@ -78,7 +78,14 @@ class Round:
 
 
 class Game:
-    """Represent a ``Game`` consisting of multiple ``Round``s."""
+    """
+    Represent a ``Game`` consisting of multiple ``Round``s.
+
+    Example:
+    -------
+    game = Game(rows=[["R", "P"], ["P", "P"]])
+
+    """
 
     def __init__(self, rows: List[List[str]]):
         self.rnds = [Round(row=row) for row in rows]
