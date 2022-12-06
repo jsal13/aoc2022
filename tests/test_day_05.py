@@ -9,9 +9,6 @@ from aoc2022.day_05 import (
     get_top_values_in_queue,
 )
 
-# from hypothesis import given
-# from hypothesis import strategies as st
-
 
 @pytest.fixture(name="test_data_raw")
 def test_data_raw_fixture():
