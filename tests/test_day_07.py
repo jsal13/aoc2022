@@ -1,30 +1,50 @@
-# # pylint: disable=protected-access
+# pylint: disable=protected-access
 # import pytest
 
-# from aoc2022.day_06 import get_start_marker_index
+from aoc2022.day_07 import (
+    parse_process_list,  # FileSystem, populate_file_system_from_cmds
+)
 
-# TEST_CASES_PART_1 = [
-#     ("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 7),
-#     ("bvwbjplbgvbhsrlpgdmjqwftvncz", 5),
-#     ("nppdvjthqldpwncqszvftbrmjlhg", 6),
-#     ("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 10),
-#     ("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 11),
-# ]
-
-# TEST_CASES_PART_2 = [
-#     ("mjqjpqmgbljsphdztnvjfqwrcgsmlb", 19),
-#     ("bvwbjplbgvbhsrlpgdmjqwftvncz", 23),
-#     ("nppdvjthqldpwncqszvftbrmjlhg", 23),
-#     ("nznrnfrfntjfmvfwmzdfjlvtqnbhcprsg", 29),
-#     ("zcfzfwzzqfrljwzlrfnpqdbhtmscgvjw", 26),
-# ]
+# TODO: MORE TESTS
 
 
-# @pytest.mark.parametrize("stream,expected", TEST_CASES_PART_1)
-# def test_get_start_marker_index_packet_size_4(stream, expected):
-#     assert get_start_marker_index(stream, packet_size=4) == expected
+COMMANDS_STR = """$ cd /
+$ ls
+dir a
+14848514 b.txt
+8504156 c.dat
+dir d
+$ cd a
+$ ls
+dir e
+29116 f
+2557 g
+62596 h.lst
+$ cd e
+$ ls
+584 i
+$ cd ..
+$ cd ..
+$ cd d
+$ ls
+4060174 j
+8033020 d.log
+5626152 d.ext
+7214296 k""".strip()
+
+COMMANDS_LIST = [
+    ["cd", "/"],
+    ["ls", "/", "dir a", "14848514 b.txt", "8504156 c.dat", "dir d"],
+    ["cd", "a"],
+    ["ls", "/a", "dir e", "29116 f", "2557 g", "62596 h.lst"],
+    ["cd", "e"],
+    ["ls", "/a/e", "584 i"],
+    ["cd", ".."],
+    ["cd", ".."],
+    ["cd", "d"],
+    ["ls", "/d", "4060174 j", "8033020 d.log", "5626152 d.ext", "7214296 k"],
+]
 
 
-# @pytest.mark.parametrize("stream,expected", TEST_CASES_PART_2)
-# def test_get_start_marker_index_packet_size_14(stream, expected):
-#     assert get_start_marker_index(stream, packet_size=14) == expected
+def test_parse_process_list_correctly_parses():
+    assert parse_process_list(COMMANDS_STR) == COMMANDS_LIST
