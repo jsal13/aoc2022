@@ -73,6 +73,11 @@ class Round:
 
     def __init__(self, monkey_data: dict[int, Monkey]):
         self.monkey_data = monkey_data
+
+        self.modulo_value = math.prod(
+            monkey.test_value for monkey in self.monkey_data.values()
+        )
+
         self.monkey_num_times_inspected = {idx: 0 for idx in range(len(self.monkey_data))}
         self.current_items = [
             self.monkey_data[i].starting_items for i in range(len(self.monkey_data))
@@ -114,10 +119,12 @@ class Round:
                 )
 
             if worry_level % current_monkey_data.test_value == 0:
-                output_log.append("Current worry level is divisible by 23.")
+                output_log.append(
+                    f"Current worry level is divisible by {current_monkey_data.test_value}."
+                )
                 self.monkey_data[
                     current_monkey_data.test_result_actions[1]
-                ].starting_items.append(worry_level)
+                ].starting_items.append(worry_level % self.modulo_value)
                 output_log.append(
                     f"Item with worry level {worry_level}"
                     f"is thrown to monkey {current_monkey_data.test_result_actions[1]}."
@@ -126,7 +133,7 @@ class Round:
                 output_log.append("Current worry level is not divisible by 23.")
                 self.monkey_data[
                     current_monkey_data.test_result_actions[0]
-                ].starting_items.append(worry_level)
+                ].starting_items.append(worry_level % self.modulo_value)
                 output_log.append(
                     f"Item with worry level {worry_level}"
                     f" is thrown to monkey {current_monkey_data.test_result_actions[0]}."
@@ -150,14 +157,14 @@ if __name__ == "__main__":
         rnd.do_a_round()
 
     inspected_num_values = rnd.monkey_num_times_inspected.values()
-    sorted_inspected_num_values = sorted(inspected_num_values, reverse=True)[:2]
+    sorted_inspected_num_values = sorted(inspected_num_values, reverse=True)
     print(f"Part 1: {sorted_inspected_num_values[0] * sorted_inspected_num_values[1]}")
 
     # Part 2.
     rnd = Round(monkey_data=test_data_parsed)
-    for _ in range(200):
+    for _ in range(10_000):
         rnd.do_a_round(divide_worry_level=False)
 
     inspected_num_values = rnd.monkey_num_times_inspected.values()
-    sorted_inspected_num_values = sorted(inspected_num_values, reverse=True)[:2]
-    print(sorted_inspected_num_values)
+    sorted_inspected_num_values = sorted(inspected_num_values, reverse=True)
+    print(f"Part 2: {sorted_inspected_num_values[0] * sorted_inspected_num_values[1]}")
